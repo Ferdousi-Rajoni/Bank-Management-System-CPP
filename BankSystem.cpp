@@ -3,8 +3,8 @@
 #include <iomanip>
 
 // Customer implementation
-Customer::Customer(const std::string& name, const std::string& address, int age, const std::string& phone, const std::string& customer_type)
-    : name(name), address(address), age(age), phone(phone), customer_type(customer_type) {}
+Customer::Customer(const std::string& name, const std::string& address, const std::string& phone, const std::string& customer_type)
+    : name(name), address(address), phone(phone), customer_type(customer_type) {}
 
 std::string Customer::get_name() const {
     return name;
@@ -41,7 +41,7 @@ std::vector<std::string> Account::get_transactions() const {
 
 // Bank implementation
 void Bank::create_customer(const std::string& customer_type) {
-    customers.push_back(std::make_unique<Customer>("John Doe", "123 Main St", 30, "555-1234", customer_type));
+    customers.push_back(std::make_unique<Customer>("John Doe", "123 Main St", "555-1234", customer_type));
 }
 
 Account* Bank::create_account(const std::string& account_type) {
