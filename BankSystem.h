@@ -10,14 +10,13 @@ class Account;
 
 class Customer {
 public:
-    Customer(const std::string& name, const std::string& address, int age, const std::string& phone, const std::string& customer_type);
+    Customer(const std::string& name, const std::string& address, const std::string& phone, const std::string& customer_type);
     std::string get_name() const;
     std::string get_customer_type() const;
 
 private:
     std::string name;
     std::string address;
-    int age;
     std::string phone;
     std::string customer_type;
 };
