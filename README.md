@@ -72,8 +72,10 @@ ERROR HANDLING:
 
 *************************************************************
 **References**
-- Class notes and materials provided in the course.
-- C++ documentation and online resources.
+Additional information on BankingManagementSystem is obtained from
+- Class notes and materials provide by Aymen Bin Said
+- Stackoverflow (https://stackoverflow.com/)
+- W3 schools(https://www.w3schools.com/cpp/)
 
 Email: ferdousi.rajoniii@gmail.com
-GitHub: https://github.com/Ferdousi-Rajoni/Banking-System-with-C-
+GitHub:https://github.com/Ferdousi-Rajoni/Bank-Management-System-CPP
