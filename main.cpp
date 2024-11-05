@@ -1,24 +1,13 @@
-// main.cpp
-// Module: Bank Account Management System
-// Author: Jannatul Ferdousi Rajoni
-// Date: 05/11/24
-// Purpose: This program serves as the user interface for managing bank                  accounts.
-//          It allows users to create accounts, make deposits, withdrawals,              and check account details.
-//          The program runs in a loop until the user decides to exit.
-
-
+#include "BankSystem.h"
 #include <iostream>
 #include <iomanip>
-#include "BankSystem.h"
-
-
+#include <string>
 
 int main() {
-    Bank bank; // Instantiate the Bank object
-    int choice; // Variable to store user's menu choice
+    Bank bank;
+    int option;
 
     while (true) {
-        // Display the main menu
         std::cout << "Select:\n";
         std::cout << "0: Add Account\n";
         std::cout << "1: Make Deposit\n";
@@ -26,17 +15,16 @@ int main() {
         std::cout << "3: Check Account\n";
         std::cout << "4: Exit\n";
         std::cout << "> ";
-        std::cin >> choice; // Get user's choice
+        std::cin >> option;
 
-        if (choice == 4) break; // Exit the loop if the user chooses to exit
+        if (option == 4) break; // Exit option
 
-        switch (choice) {
+        switch (option) {
             case 0: { // Add Account
-                std::cin.ignore(); // Ignore leftover newline from previous input
+                std::cin.ignore();  // Clear newline from buffer
                 std::string name, address, phone;
-                int age, customer_option, account_option;
+                int age, customer_type, account_type;
 
-                // Gather customer details
                 std::cout << "Enter Customer Name> ";
                 std::getline(std::cin, name);
                 std::cout << "Enter Customer Address> ";
@@ -44,30 +32,33 @@ int main() {
                 std::cout << "Enter Customer Age> ";
                 std::cin >> age;
                 std::cout << "Enter Customer Phone Number> ";
-                std::cin >> phone;
+                std::cin.ignore();
+                std::getline(std::cin, phone);
 
-                // Select customer type
-                std::cout << "Select:\n0: Senior\n1: Adult\n2: Student\n> ";
-                std::cin >> customer_option;
-                std::string customer_type = (customer_option == 0) ? "Senior" : (customer_option == 1) ? "Adult" : "Student";
+                std::cout << "Select:\n";
+                std::cout << "0: Senior\n";
+                std::cout << "1: Adult\n";
+                std::cout << "2: Student\n";
+                std::cout << "> ";
+                std::cin >> customer_type;
 
-                // Call create_customer with gathered details
-                bank.create_customer(customer_type, name, address, phone);
+                bank.create_customer(customer_type == 0 ? "Senior" : customer_type == 1 ? "Adult" : "Student");
 
-                // Select account type and create account without storing in a variable
-                std::cout << "Select:\n0: Checking\n1: Savings\n> ";
-                std::cin >> account_option;
-                bank.create_account(account_option == 0 ? "Checking" : "Savings");
+                std::cout << "Select:\n";
+                std::cout << "0: Checking\n";
+                std::cout << "1: Savings\n";
+                std::cout << "> ";
+                std::cin >> account_type;
 
-                // Display confirmation
+                Account* account = bank.create_account(account_type == 0 ? "Checking" : "Savings");
                 std::cout << "Account: " << (bank.get_account_count() - 1) << " Added\n";
                 break;
             }
 
             case 1: { // Make Deposit
-                int account_number; // Variable to store account number
-                double amount; // Variable to store deposit amount
-                std::string date; // Variable to store transaction date
+                int account_number;
+                double amount;
+                std::string date;
 
                 std::cout << "Enter Account Number> ";
                 std::cin >> account_number;
@@ -76,24 +67,15 @@ int main() {
                 std::cout << "Enter the date yyyy-mm-dd> ";
                 std::cin >> date;
 
-                // Get the account and perform the deposit
-                Account* account = bank.get_account(account_number);
-                if (account) {
-                    account->deposit(amount, date);
-                    std::cout << "Deposit in " << account_number << " amount: $"
-                              << std::fixed << std::setprecision(2) << amount
-                              << " on " << date << " new balance: $"
-                              << account->get_balance() << "\n";
-                } else {
-                    std::cout << "Invalid Account Number\n";
-                }
+                bank.get_account(account_number)->deposit(amount, date);
+                std::cout << "Deposit in " << account_number << " amount: $" << std::fixed << std::setprecision(2) << amount << " on " << date << " new balance: $" << bank.get_account(account_number)->get_balance() << "\n";
                 break;
             }
 
             case 2: { // Make Withdrawal
-                int account_number; // Variable to store account number
-                double amount; // Variable to store withdrawal amount
-                std::string date; // Variable to store transaction date
+                int account_number;
+                double amount;
+                std::string date;
 
                 std::cout << "Enter Account Number> ";
                 std::cin >> account_number;
@@ -102,50 +84,35 @@ int main() {
                 std::cout << "Enter the date yyyy-mm-dd> ";
                 std::cin >> date;
 
-                // Get the account and perform the withdrawal
-                Account* account = bank.get_account(account_number);
-                if (account) {
-                    account->withdraw(amount, date);
-                    std::cout << "Withdraw from " << account_number << " amount: $"
-                              << std::fixed << std::setprecision(2) << amount
-                              << " on " << date << " new balance: $"
-                              << account->get_balance() << "\n";
-                } else {
-                    std::cout << "Invalid Account Number\n";
-                }
+                bank.get_account(account_number)->withdraw(amount, date);
+                std::cout << "Withdraw from " << account_number << " amount: $" << std::fixed << std::setprecision(2) << amount << " on " << date << " new balance: $" << bank.get_account(account_number)->get_balance() << "\n";
                 break;
             }
 
             case 3: { // Check Account
-                int account_number; // Variable to store account number
+                int account_number;
                 std::cout << "Enter Account Number> ";
                 std::cin >> account_number;
 
-                // Get account and customer details
                 Account* account = bank.get_account(account_number);
-                Customer* customer = bank.get_customer(account_number);
-                if (account && customer) {
-                    std::cout << "Account: " << account_number << "\n";
-                    std::cout << "Owner: " << customer->get_name() << "\n";
-                    std::cout << "Type of customer: " << customer->get_customer_type() << "\n";
-                    std::cout << "Balance: $" << std::fixed << std::setprecision(2) << account->get_balance() << "\n";
+                std::cout << "Account: " << account_number << "\n";
+                std::cout << "Owner: " << bank.get_customer(account_number)->get_name() << "\n";
+                std::cout << "Type of customer: " << bank.get_customer(account_number)->get_customer_type() << "\n";
+                std::cout << "Balance: $" << std::fixed << std::setprecision(2) << account->get_balance() << "\n";
 
-                    // Display transaction history
-                    const std::vector<std::string>& transactions = account->get_transactions();
-                    for (const auto& transaction : transactions) {
-                        std::cout << "   " << transaction << "\n";
-                    }
-                } else {
-                    std::cout << "Invalid Account Number\n";
+                // Print transaction history
+                const std::vector<Transaction>& transactions = account->get_transactions();
+                for (const auto& trans : transactions) {
+                    std::cout << trans.to_string() << "\n";
                 }
                 break;
             }
 
-            default: // Handle invalid option
-                std::cout << "Invalid option. Please try again.\n";
+            default:
+                std::cout << "Invalid selection. Try again.\n";
                 break;
         }
     }
 
-    return 0; // End of the program
+    return 0;
 }
