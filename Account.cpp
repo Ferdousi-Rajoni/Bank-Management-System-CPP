@@ -9,7 +9,7 @@
  * and modify account information, such as getting account details, 
  * setting balances, and recording transactions.
  * The class also provides a method for printing out the transaction 
- * history as a string.
+ * history as a string
  */
 
 
