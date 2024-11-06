@@ -10,7 +10,7 @@
  * account information, managing transactions, and converting account details 
  * to a string format. 
  * The header also includes a static member variable for keeping track of 
- * account numbers, ensuring each account has a unique identifier.
+ * account numbers, ensuring each account has a unique identifier
  */
 
 #ifndef ACCOUNT_H_
